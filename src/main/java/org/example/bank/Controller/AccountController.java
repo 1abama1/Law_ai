@@ -1,14 +1,22 @@
 package org.example.bank.Controller;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement; import org.example.bank.DTO.TransferRequest;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.example.bank.DTO.TransferRequest;
 import org.example.bank.DTO.TransferResponse;
-import org.example.bank.Entity.Account; import org.example.bank.Entity.Transaction; import org.example.bank.Entity.User; import org.example.bank.Repository.AccountRepository; import org.example.bank.Repository.RefreshTokenRepository; import org.example.bank.Repository.TransactionRepository; import org.example.bank.Repository.UserRepository; import org.example.bank.Security.JwtUtil;
+import org.example.bank.Entity.Account;
+import org.example.bank.Entity.User;
+import org.example.bank.Repository.AccountRepository;
+import org.example.bank.Repository.RefreshTokenRepository;
+import org.example.bank.Repository.UserRepository;
+import org.example.bank.Security.JwtUtil;
+import org.example.bank.Service.AccountService;
 import org.example.bank.Service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity; import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal; import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -17,16 +25,21 @@ import java.util.Map;
 public class AccountController {
     @Autowired
     private UserRepository userRepo;
+    
     @Autowired
     private AccountRepository accRepo;
-    @Autowired
-    private TransactionRepository transRepo;
+    
     @Autowired
     private RefreshTokenRepository refreshTokenRepo;
+    
     @Autowired
     private JwtUtil jwtUtil;
+    
     @Autowired
     private RefreshTokenService refreshTokenService;
+    
+    @Autowired
+    private AccountService accountService;
 
     @PostMapping("/transfer")
     public ResponseEntity<?> transfer(
@@ -52,28 +65,18 @@ public class AccountController {
                 );
             }
 
-            // Сохраняем старый баланс для расчета нового
+            // Сохраняем старый баланс для вычисления нового
             Double senderOldBalance = from.getBalance();
+            
+            // Выполняем перевод через сервис
+            accountService.transferMoney(from, to, req.getAmount());
 
-            from.setBalance(senderOldBalance - req.getAmount());
-            to.setBalance(to.getBalance() + req.getAmount());
-
-            Transaction transaction = new Transaction();
-            transaction.setAmount(req.getAmount());
-            transaction.setTimestamp(LocalDateTime.now());
-            transaction.setFromAccount(from);
-            transaction.setToAccount(to);
-
-            transRepo.save(transaction);
-            Account savedFromAccount = accRepo.save(from);
-            accRepo.save(to);
-
-            TransferResponse response = new TransferResponse(       );
+            TransferResponse response = new TransferResponse();
             response.setMessage("Перевод успешно выполнен");
             response.setAmount(req.getAmount());
-            response.setFromAccountId(savedFromAccount.getId());
+            response.setFromAccountId(from.getId());
             response.setToAccountId(to.getId());
-            response.setSenderNewBalance(savedFromAccount.getBalance());
+            response.setSenderNewBalance(from.getBalance());
             response.setTimestamp(LocalDateTime.now());
 
             return ResponseEntity.ok(response);
@@ -108,5 +111,4 @@ public class AccountController {
             throw new RuntimeException("Invalid authorization header");
         }
     }
-
 }

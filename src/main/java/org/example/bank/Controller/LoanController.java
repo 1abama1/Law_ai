@@ -1,5 +1,6 @@
 package org.example.bank.Controller;
 
+import org.example.bank.DTO.LoanDTO;
 import org.example.bank.DTO.LoanRequestDTO;
 import org.example.bank.Entity.Loan;
 import org.example.bank.Entity.User;
@@ -22,8 +23,16 @@ public class LoanController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public ResponseEntity<List<LoanDTO>> getAllLoans(@RequestParam(required = false) String status) {
+        if (status != null && !status.isEmpty()) {
+            return ResponseEntity.ok(loanService.getLoansByStatusDTO(status));
+        }
+        return ResponseEntity.ok(loanService.getAllLoansDTO());
+    }
+
     @PostMapping
-    public ResponseEntity<Loan> createLoan(@RequestBody LoanRequestDTO loanRequest) {
+    public ResponseEntity<LoanDTO> createLoan(@RequestBody LoanRequestDTO loanRequest) {
         User user = userService.getUserById(loanRequest.getUserId());
         if (user == null) {
             return ResponseEntity.badRequest().build();
@@ -33,25 +42,28 @@ public class LoanController {
         loan.setAmount(loanRequest.getAmount());
         loan.setInterestRate(loanRequest.getInterestRate());
         loan.setUser(user);
-        loan.setTermInMonths(12); // По умолчанию 12 месяцев, можно изменить
+        loan.setTermInMonths(loanRequest.getTermInMonths() != null ? loanRequest.getTermInMonths() : 12);
 
-        return ResponseEntity.ok(loanService.createLoan(loan));
+        Loan createdLoan = loanService.createLoan(loan);
+        return ResponseEntity.ok(loanService.convertToDTO(createdLoan));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Loan>> getLoansByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(loanService.getLoansByUserId(userId));
+    public ResponseEntity<List<LoanDTO>> getLoansByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(loanService.getLoansByUserIdDTO(userId));
     }
 
     @PostMapping("/{loanId}/approve")
-    public ResponseEntity<Loan> approveLoan(@PathVariable Long loanId) {
-        return ResponseEntity.ok(loanService.approveLoan(loanId));
+    public ResponseEntity<LoanDTO> approveLoan(@PathVariable Long loanId) {
+        Loan approvedLoan = loanService.approveLoan(loanId);
+        return ResponseEntity.ok(loanService.convertToDTO(approvedLoan));
     }
 
     @PostMapping("/{loanId}/payment")
-    public ResponseEntity<Loan> makePayment(
+    public ResponseEntity<LoanDTO> makePayment(
             @PathVariable Long loanId,
             @RequestParam Double amount) {
-        return ResponseEntity.ok(loanService.makePayment(loanId, amount));
+        Loan updatedLoan = loanService.makePayment(loanId, amount);
+        return ResponseEntity.ok(loanService.convertToDTO(updatedLoan));
     }
 }

@@ -2,14 +2,39 @@ package org.example.bank.DTO;
 
 import java.time.LocalDateTime;
 
-public class TransactionDto {
-    public Double amount;
-    public String direction;
-    public LocalDateTime timestamp;
-    public Long fromAccount;
-    public Long toAccount;
-    public String fromUsername; // Добавлено
-    public String toUsername;
+public class TransactionDTO {
+    private Long id;
+    private String type;
+    private LocalDateTime date;
+    private Double amount;
+    private String description;
+    private Long userId;
+    private String username;
+    private Long loanId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
 
     public Double getAmount() {
         return amount;
@@ -19,35 +44,35 @@ public class TransactionDto {
         this.amount = amount;
     }
 
-    public String getDirection() {
-        return direction;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getFromAccount() {
-        return fromAccount;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFromAccount(Long fromAccount) {
-        this.fromAccount = fromAccount;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Long getToAccount() {
-        return toAccount;
+    public Long getLoanId() {
+        return loanId;
     }
 
-    public void setToAccount(Long toAccount) {
-        this.toAccount = toAccount;
+    public void setLoanId(Long loanId) {
+        this.loanId = loanId;
     }
 }

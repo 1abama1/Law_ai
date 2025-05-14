@@ -36,4 +36,44 @@ public class UserBlock {
     public boolean isActive() {
         return expiryDate == null || LocalDateTime.now().isBefore(expiryDate);
     }
-} 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getBlockDate() {
+        return blockDate;
+    }
+
+    public void setBlockDate(LocalDateTime blockDate) {
+        this.blockDate = blockDate;
+    }
+
+    public LocalDateTime getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDateTime expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+}

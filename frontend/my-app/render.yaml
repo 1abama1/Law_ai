@@ -3,7 +3,7 @@ services:
     name: polniy-bankich-frontend
     env: node
     buildCommand: npm install && npm run build
-    startCommand: npm run production
+    startCommand: ./deploy.sh
     envVars:
       - key: VITE_API_URL
         value: https://polniy-bankich.onrender.com:10000

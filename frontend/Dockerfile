@@ -11,16 +11,8 @@ RUN npm install
 # Копируем остальные файлы
 COPY frontend/my-app/ .
 
-# Создаем скрипт для запуска
-RUN echo '#!/bin/sh\n\
-# Устанавливаем переменные окружения\n\
-export VITE_API_URL=https://polniy-bankich.onrender.com:10000\n\
-export VITE_AI_SERVICE_URL=https://ai-service-ziam.onrender.com\n\
-export VITE_API_SOCKET_URL=https://polniy-bankich.onrender.com:10000\n\
-\n\
-# Собираем и запускаем приложение\n\
-npm run build && npm run preview -- --host 0.0.0.0 --port 5173' > deploy.sh && \
-chmod +x deploy.sh
+# Делаем скрипт deploy.sh исполняемым
+RUN chmod +x deploy.sh
 
 EXPOSE 5173
 

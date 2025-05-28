@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Polniy_bankich/',
+  base: '/ukuk/',
   server: {
     host: '0.0.0.0',
     port: 10001,

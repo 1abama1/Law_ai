@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: polniy-bankich-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run production
+    envVars:
+      - key: VITE_API_URL
+        value: https://polniy-bankich.onrender.com:10000
+      - key: VITE_AI_SERVICE_URL
+        value: https://ai-service-ziam.onrender.com
+      - key: VITE_API_SOCKET_URL
+        value: https://polniy-bankich.onrender.com:10000
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /
+    autoDeploy: true
+    plan: free
+    disk:
+      name: npm-cache
+      mountPath: /opt/render/project/src/.npm
+      sizeGB: 1 

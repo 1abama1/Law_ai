@@ -3,7 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # или master, в зависимости от вашей основной ветки
+      - main
+    paths:
+      - 'frontend/my-app/**'
 
 permissions:
   contents: write
@@ -22,9 +24,11 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
+        working-directory: frontend/my-app
         run: npm ci
 
       - name: Build
+        working-directory: frontend/my-app
         run: npm run build
         env:
           VITE_API_URL: https://polniy-bankich.onrender.com:10000
@@ -34,6 +38,6 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
+          folder: frontend/my-app/dist
           branch: gh-pages
           clean: true 

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://1abama1.github.io/ukuk",
+  "homepage": "https://ukuk.github.io/ukuk",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "production": "vite build && vite preview --host 0.0.0.0 --port 10001",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --dotfiles"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

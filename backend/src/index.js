@@ -17,8 +17,11 @@ const server = http.createServer(app);
 initializeSocket(server);
 
 // Middleware
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5000';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Vite's default port
+  origin: FRONTEND_URL,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

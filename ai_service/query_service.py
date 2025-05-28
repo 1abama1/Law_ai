@@ -16,7 +16,7 @@ CORS(app, resources={
     }
 })
 
-genai.configure(api_key="AIzaSyAXU3Szq3YZtUHxYHNep9L6GlAYnF7mDsE")
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 generation_config = {
     "temperature": 0.7,

@@ -7,8 +7,6 @@ package-lock.json
 yarn.lock
 
 # Environment variables
-.env.local
-.env.*.local
 
 # IDE
 .idea/
@@ -62,8 +60,6 @@ backend/node_modules/
 backend/logs/
 backend/tmp/
 backend/temp/
-backend/.env
-backend/.env.*
 backend/dist/
 backend/build/
 backend/coverage/
@@ -78,8 +74,6 @@ frontend/node_modules/
 frontend/logs/
 frontend/tmp/
 frontend/temp/
-frontend/.env
-frontend/.env.*
 frontend/dist/
 frontend/build/
 frontend/coverage/

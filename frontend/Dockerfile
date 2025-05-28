@@ -14,6 +14,6 @@ COPY frontend/my-app/ .
 # Делаем скрипт deploy.sh исполняемым
 RUN chmod +x deploy.sh
 
-EXPOSE 5173
+EXPOSE 10001
 
 CMD ["./deploy.sh"] 

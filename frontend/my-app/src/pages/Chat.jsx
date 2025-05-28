@@ -4,8 +4,9 @@ import { getAllProfessionals, getAllUsers } from '../api';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
-const API_URL = 'http://localhost:5000/api';
-const SOCKET_URL = 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL + '/api';
+const SOCKET_URL = import.meta.env.VITE_API_SOCKET_URL || import.meta.env.VITE_API_URL;
+const AI_SERVICE_URL = import.meta.env.VITE_AI_SERVICE_URL;
 
 const Chat = () => {
   const { user } = useAuth();

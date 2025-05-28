@@ -3,13 +3,13 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Копируем только package.json и package-lock.json
-COPY my-app/package.json my-app/package-lock.json ./
+COPY frontend/my-app/package.json frontend/my-app/package-lock.json ./
 
 # Устанавливаем зависимости
 RUN npm install
 
 # Копируем остальные файлы
-COPY my-app/ .
+COPY frontend/my-app/ .
 
 # Создаем скрипт для запуска
 RUN echo '#!/bin/sh\n\
